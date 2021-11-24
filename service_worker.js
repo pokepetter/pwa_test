@@ -8,12 +8,9 @@ self.addEventListener('install', function(event) {
     // Perform install steps
     console.log('installing service_worker');
     event.waitUntil(
-        caches.open(CACHE_NAME)
-            .then(function(cache) {
-                console.log('Opened cache');
-                var x = cache.addAll(urlsToCache);
-                console.log('cache added');
-                return x;
+        caches.open(CACHE_NAME).then(function(cache) {
+            console.log('Opened cache');
+            return cache.addAll(urlsToCache);
             })
     );
 });
