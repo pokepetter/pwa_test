@@ -6,7 +6,8 @@
     {
       "src": "pink_tower_192.png",
       "type": "image/png",
-      "sizes": "192x192"
+      "sizes": "192x192",
+      "purpose": "any maskable"
     },
     {
       "src": "pink_tower_512.png",
