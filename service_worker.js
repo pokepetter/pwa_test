@@ -17,7 +17,7 @@ const OFFLINE_URL = 'offline.html';
 //     );
 // });
 
-elf.addEventListener('install', function(event) {
+self.addEventListener('install', function(event) {
   console.log('[ServiceWorker] Install');
 
   event.waitUntil((async () => {
