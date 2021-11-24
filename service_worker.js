@@ -1,5 +1,5 @@
-const CACHE_NAME = 'offline';
-const OFFLINE_URL = 'offline.html';
+const CACHE_NAME = 'index';
+const OFFLINE_URL = 'index.html';
 // var urlsToCache = [
 //   './',
 //   './index.html'
