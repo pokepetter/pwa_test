@@ -1,6 +1,7 @@
 var CACHE_NAME = 'v';
 var urlsToCache = [
-  '/'
+  '/',
+  '/index.html'
 ];
 console.log('loading sw');
 
