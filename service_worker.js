@@ -1,8 +1,8 @@
 var CACHE_NAME = 'v';
 var urlsToCache = [
-    './',
+    'grpahic_designer.html',
     'service_worker.js',
-    'manifest.json',
+    'app.webmanifest',
 ];
 console.log('loading sw');
 

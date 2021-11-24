@@ -10,7 +10,6 @@
     }
   ],
   "start_url": "/",
-  "scope": ".",
 
   "background_color": "darkgreen",
   "theme_color": "darkgreen",
