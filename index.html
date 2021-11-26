@@ -29,8 +29,38 @@ if ('serviceWorker' in navigator) { // register service worker for PWA (Progress
 set_background_color("#111111")
 set_window_color("#222")
 colors = ['cyan', 'magenta', 'yellow']
+
+slots = []
+draggables = []
+
 for i in range(3):
-    Entity(scale=.2, color=colors[i], x=-.3 + (i*.25), draggable=true, roundness=.2, shadow=1)
+    slot = Entity(scale=.15, color=colors[i], x=-.3 + (i*.25), roundness=.3, color='#00000000')
+    slot.el.style.outline = `medium dashed ${colors[i]}`;
+    slots.push(slot)
+
+    let e = Entity(scale=.2, color=colors[i], x=-.3 + (i*.25), y=-.25, draggable=true, roundness=.2, shadow=1, target_slot=slot)
+    draggables.push(e)
+
+    e.drop = def():
+        e.scale_x -= .02
+        e.scale_y -= .02
+        invoke(
+        def():
+            e.scale_x += .02
+            e.scale_y += .02
+        , delay=.05)
+
+
+        if distance(e.position, e.target_slot.position) < .1:
+            e.position = e.target_slot.position
+            e.draggable = false
+            r = [e.draggable for e in draggables].sum()
+            if r == 0:
+                win()
+
+def win():
+    t = Text(text='Yay! :D').fit_to_text()
+
 
 </script>
 <script src="pokescript_compiler.js"></script>

@@ -710,4 +710,8 @@ function Text(options) {
     return new Entity(options)
 }
 
-CLEAR = '#00000000'
+sqrt = Math.sqrt
+
+function distance(a, b) {
+    return sqrt((b[0] - a[0])**2 + (b[1] - a[1])**2)
+}
