@@ -101,9 +101,14 @@ for (var i=0; i<lines.length; i++) {
     lines[i] = lines[i].replaceAll('.append(', '.push(')
     lines[i] = lines[i].replaceAll('.add(', '.push(')
     lines[i] = lines[i].replaceAll('.sum()', '.reduce((a, b) => a + b, 0)')
+    lines[i] = lines[i].replaceAll(' int(', ' parseInt(')
 
+    if (lines[i].includes('for i, e in enumerate(')) {
+        target = lines[i].split('for i, e in enumerate(')[1].split(')')[0]
+        lines[i] = lines[i].replace(`for i, e in enumerate(${target})`, `for (const [i, e] of ${target}.entries())`)
+    }
 
-    if (lines[i].includes('[') && lines[i].includes(']') && lines[i].includes(' for ') && lines[i].includes(' in ')) {
+    if (lines[i].includes('[') && lines[i].includes(']') && lines[i].split('[')[1].split(']')[0].includes(' for ') && lines[i].includes(' in ')) {
         // remove part before list comprehension
         if (lines[i].includes(' = [')) {
             code_before_list_comprehension = lines[i].split(' = [')[0] + ' = '

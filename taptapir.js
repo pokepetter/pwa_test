@@ -752,3 +752,7 @@ function sample(population, k){
 
     return result;
 }
+
+function save(name, value) {localStorage.setItem(name, value)}
+function load(name) {return localStorage.getItem(name)}
+function erase() {localStorage.clear()}
