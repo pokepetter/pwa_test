@@ -32,13 +32,25 @@ colors = ['cyan', 'magenta', 'yellow']
 
 slots = []
 draggables = []
+coordinates = []
+
+for x in range(5):
+    for y in range(5):
+        coordinate = [x,y]
+        coordinates.push(coordinate)
+
+colors = ['cyan', 'magenta', 'yellow']
+scale = 1/5*.9
 
 for i in range(3):
-    slot = Entity(scale=.15, color=colors[i], x=-.3 + (i*.25), roundness=.3, color='#00000000')
-    slot.el.style.outline = `medium dashed ${colors[i]}`;
+    slot = Entity(color=colors[i], scale=.1, roundness=.3, color='#00000000')
+
+    slot.el.style.outline = `medium dashed ${colors[i]}`
     slots.push(slot)
 
-    let e = Entity(scale=.2, color=colors[i], x=-.3 + (i*.25), y=-.25, draggable=true, roundness=.2, shadow=1, target_slot=slot)
+    let e = Entity(color=colors[i], scale=.16, draggable=true, roundness=.2, shadow=1, target_slot=slot)
+
+
     draggables.push(e)
 
     e.drop = def():
@@ -58,8 +70,31 @@ for i in range(3):
             if r == 0:
                 win()
 
+def randomize_positions():
+    random_positions = sample(coordinates, 6)
+    for i in range(3)
+        e = slots[i]
+        e.x = (-2 + random_positions[(i*2)][0]) * scale
+        e.y = (-2 + random_positions[(i*2)][1]) * scale
+
+        e = draggables[i]
+        e.x = (-2 + random_positions[(i*2)+1][0]) * scale
+        e.y = (-2 + random_positions[(i*2)+1][1]) * scale
+        e.draggable = true
+
+randomize_positions()
+
+win_text = Text(text='Yay! :D', enabled=false)
+win_text.fit_to_text()
+
 def win():
-    t = Text(text='Yay! :D').fit_to_text()
+    win_text.enabled = true
+    invoke(
+    def ():
+        win_text.enabled = false
+        randomize_positions()
+    , delay=1)
+
 
 
 </script>
