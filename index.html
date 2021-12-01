@@ -84,7 +84,7 @@ def randomize_positions():
 
 randomize_positions()
 
-score = int(load('score'))
+score = int(savesystem.load('score'))
 if not score:
     score = 0
 score_counter = Text(y=(.5*aspect_ratio)-.05, text=score, origin=[0,.5], text_color='white', color='#222', shadow=0)
@@ -97,7 +97,7 @@ def win():
     win_text.enabled = true
     score += 1
     score_counter.text= score
-    save('score', score)
+    savesystem.save('score', score)
 
     for i, e in enumerate(draggables):
         invoke(def():
