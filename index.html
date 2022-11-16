@@ -12,7 +12,7 @@
     <link rel="apple-touch-icon" href="pink_tower_192.png">
     <link rel="manifest" href="manifest.json">
 
-    <title>pwa_test</title>
+    <title>CMYK Swap</title>
 </head>
 <script type="text/javascript">
 if ('serviceWorker' in navigator) { // register service worker for PWA (Progressive Web App) to work.
@@ -24,7 +24,7 @@ if ('serviceWorker' in navigator) { // register service worker for PWA (Progress
 <body><div id="game"></div></body>
 
 <script src="taptapir.js"></script>
-<script type='text/pokescript'>
+<script type='text/sunsnake'>
 
 set_background_color("#111111")
 set_window_color("#222")
@@ -37,7 +37,7 @@ coordinates = []
 for x in range(5):
     for y in range(5):
         coordinate = [x,y]
-        coordinates.push(coordinate)
+        coordinates.append(coordinate)
 
 colors = ['cyan', 'magenta', 'yellow']
 scale = 1/5*.9
@@ -46,13 +46,12 @@ for i in range(3):
     slot = Entity(color=colors[i], scale=.1, roundness=.3, color='#00000000')
 
     slot.el.style.outline = `medium dashed ${colors[i]}`
-    slots.push(slot)
+    slots.append(slot)
 
-    let e = Entity(color=colors[i], scale=.16, draggable=true, roundness=.2, shadow=1, target_slot=slot)
-    e.effect = Entity(parent=e, scale=2, z=-1, texture='impact_effect.gif', enabled=false)
-    // e.effect.el.style.outline = `auto`
+    let e = Entity(color=colors[i], scale=.16, draggable=True, roundness=.2, shadow=True, target_slot=slot)
+    e.effect = Entity(parent=e, scale=2, z=-1, texture='impact_effect.gif', enabled=False)
 
-    draggables.push(e)
+    draggables.append(e)
 
     e.drop = def():
         e.scale_x -= .02
@@ -65,7 +64,7 @@ for i in range(3):
 
         if distance(e.position, e.target_slot.position) < .1:
             e.position = e.target_slot.position
-            e.draggable = false
+            e.draggable = False
             r = [e.draggable for e in draggables].sum()
             if r == 0:
                 win()
@@ -80,7 +79,7 @@ def randomize_positions():
         e = draggables[i]
         e.x = (-2 + random_positions[(i*2)+1][0]) * scale
         e.y = (-2 + random_positions[(i*2)+1][1]) * scale
-        e.draggable = true
+        e.draggable = True
 
 randomize_positions()
 
@@ -90,28 +89,29 @@ if not score:
 score_counter = Text(y=(.5*aspect_ratio)-.05, text=score, origin=[0,.5], text_color='white', color='#222', shadow=0)
 score_counter.fit_to_text()
 
-win_text = Text(text='Yay! :D', enabled=false)
+win_text = Text(text='Yay! :D', enabled=False, background=color.white, shadow=True)
 win_text.fit_to_text()
 
 def win():
-    win_text.enabled = true
+    win_text.enabled = True
     score += 1
     score_counter.text= score
     savesystem.save('score', score)
 
     for i, e in enumerate(draggables):
+        let _e = e
         invoke(def():
-            e.effect.enabled = true
-            e.effect.texture = 'impact_effect.gif'+"?a="+Math.random();
+            _e.effect.enabled = True
+            _e.effect.texture = 'impact_effect.gif'
         , delay=i*.1)
     invoke(
     def ():
-        win_text.enabled = false
+        win_text.enabled = False
         randomize_positions()
     , delay=1)
 
 // erase()
 
 </script>
-<script src="pokescript_compiler.js"></script>
+<script src="sunsnake_compiler.js"></script>
 </html>
