@@ -1,9 +1,16 @@
 {
   "name": "CMYK Swap",
   "short_name": "CMYK Swap",
+  "description": "Put the colors in the right slot! A fun little game to destress.",
   "theme_color": "#ffffff",
   "background_color": "#fcba03",
-  "display": "standalone",
+  "display": "fullscreen",
+  "orientation": "portrait",
+  "dir": "auto",
+  "lang": "en",
+  "categories": [
+    "games"
+  ],
   "scope": "./",
   "start_url": "./",
   "icons": [
@@ -55,12 +62,5 @@
       "type": "image/png",
       "purpose": "any"
     }
-  ],
-  "description": "Put the colors in the right slot! A fun little game to destress.",
-  "dir": "auto",
-  "lang": "en",
-  "orientation": "portrait",
-  "categories": [
-    "games"
   ]
 }
