@@ -15,10 +15,10 @@
     <title>CMYK Swap</title>
 </head>
 <script type="text/javascript">
-if ('serviceWorker' in navigator) { // register service worker for PWA (Progressive Web App) to work.
-    console.log("load service worker")
-    navigator.serviceWorker.register('service_worker.js')
-    console.log("registered service worker")
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+    navigator.serviceWorker.register('./service_worker.js');
+    });
 }
 </script>
 <body><div id="game"></div></body>
