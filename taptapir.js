@@ -1008,9 +1008,9 @@ function Text(options) {
     if (!'scale' in options && !'scale_x' in options) {
         options['scale_x'] = .8
     }
-    if ('background' in options && options['background'] && !'color' in options) {
+    if ('background' in options && options['background']) {
         if (options['background'] == true) {
-            options['color'] = '#ffffff00'
+            options['color'] = '#ffffffff'
             options['alpha'] = .9
         }
         else {

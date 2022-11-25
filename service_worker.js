@@ -8,7 +8,7 @@ const CONTENT_TO_CACHE = [
 
 
 
-// importScripts('https://storage.googleapis.com/workbox-cdn/releases/5.1.2/workbox-sw.js');
+importScripts('https://storage.googleapis.com/workbox-cdn/releases/5.1.2/workbox-sw.js');
 
 self.addEventListener("message", (event) => {
   if (event.data && event.data.type === "SKIP_WAITING") {
@@ -23,9 +23,9 @@ self.addEventListener('install', async (event) => {
   );
 });
 
-// if (workbox.navigationPreload.isSupported()) {
-//   workbox.navigationPreload.enable();
-// }
+if (workbox.navigationPreload.isSupported()) {
+  workbox.navigationPreload.enable();
+}
 
 self.addEventListener('fetch', (event) => {
   if (event.request.mode === 'navigate') {
