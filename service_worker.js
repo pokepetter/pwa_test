@@ -27,7 +27,6 @@ self.addEventListener('install', async (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then((cache) => cache.add(offlineFallbackPage))
-      .then((cache) => cache.add_all(CONTENT_TO_CACHE))
   );
 });
 
