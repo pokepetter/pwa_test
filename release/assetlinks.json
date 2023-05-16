@@ -1,6 +1,0 @@
-[{
-        "relation": ["delegate_permission/common.handle_all_urls"],
-        "target" : { "namespace": "android_app", "package_name": "io.github.pokepetter.twa",
-                     "sha256_cert_fingerprints": ["B8:91:B0:8A:3B:EF:FB:29:27:A2:32:0A:FA:EA:1C:D7:FF:A2:10:16:B3:A7:8C:16:63:24:7E:93:7D:7D:CA:EC"] }
-      }
-]

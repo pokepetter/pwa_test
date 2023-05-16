@@ -1,9 +1,9 @@
 {
   "name": "CMYK Swap",
   "short_name": "CMYK Swap",
-  "description": "Put the colors in the right slot! A fun little game to destress.",
+  "description": "CMYK Swap, a relaxing game where you have to put the colors in the right place!",
   "theme_color": "#ffffff",
-  "background_color": "#fcba03",
+  "background_color": "#000000",
   "display": "fullscreen",
   "orientation": "portrait",
   "dir": "auto",

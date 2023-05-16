@@ -1,0 +1,90 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8" />
+<title>CMYK Swap</title><link rel="icon" href="icon.png">
+</head><body></body>
+<script src="taptapir.js"></script>
+<script type='text/sunsnake'>
+
+set_background_color("#111111")
+set_window_color("#222")
+
+slots = []
+draggables = []
+coordinates = []
+
+for x in range(5):
+    for y in range(5):
+        coordinate = [x,y]
+        coordinates.append(coordinate)
+
+colors = [color.cyan, color.magenta, color.yellow]
+color_names = ['cyan', 'magenta', 'yellow']
+block_size = 1/5*.9
+
+for i in range(3):
+    slot = Entity(color=colors[i], scale=.1, roundness=.0, color=color.clear)
+
+    slot.model.style.outline = `medium dashed ${color_names[i]}`
+    slots.append(slot)
+
+    let e = Entity(color=colors[i], scale=.16, draggable=True, roundness=.2, shadow=True, target_slot=slot)
+    e.effect = Entity(parent=e, scale=2, z=-1, texture='impact_effect.gif', enabled=False)
+
+    draggables.append(e)
+
+    e.drop = def():
+        e.scale_x -= .02
+        e.scale_y -= .02
+        after .05s:
+            e.scale_x += .02
+            e.scale_y += .02
+
+        if distance(e.position, e.target_slot.position) < .1:
+            e.position = e.target_slot.position
+            e.draggable = False
+            r = [e.draggable for e in draggables].sum()
+            if r == 0:
+                win()
+
+def randomize_positions():
+    random_positions = sample(coordinates, 6)
+    for i in range(3)
+        e = slots[i]
+        e.x = (-2 + random_positions[(i*2)][0]) * block_size
+        e.y = (-2 + random_positions[(i*2)][1]) * block_size
+
+        e = draggables[i]
+        e.x = (-2 + random_positions[(i*2)+1][0]) * block_size
+        e.y = (-2 + random_positions[(i*2)+1][1]) * block_size
+        e.draggable = True
+
+randomize_positions()
+
+score = int(save_system_load('score'))
+if not score:
+    score = 0
+score_counter = Button(y=(.5*aspect_ratio)-.05, text=score, origin=[0,.5], text_color=color.white, color='#222')
+score_counter.fit_to_text()
+
+win_text = Text(text='Yay! :D', enabled=False, color=color.white, shadow=True)
+win_text.fit_to_text()
+
+def win():
+    win_text.enabled = True
+    score += 1
+    score_counter.text= score
+    save_system_save('score', score)
+
+    for i, e in enumerate(draggables):
+        let _e = e
+        after i*.1s:
+            _e.effect.enabled = True
+            _e.effect.texture = 'impact_effect.gif'
+
+    after 1s:
+        win_text.enabled = False
+        randomize_positions()
+print('-')
+
+</script>
+<script src="sunsnake_compiler.js"></script>
+</html>
