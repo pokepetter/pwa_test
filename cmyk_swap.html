@@ -7,6 +7,11 @@
 set_background_color("#111111")
 set_window_color("#222")
 
+SCORE = int(save_system_load('score'))
+ICY_CHANCE = int(save_system_load('icy_chance'))
+ICY_CHANCE = 1
+IS_ICY = False
+
 slots = []
 draggables = []
 coordinates = []
@@ -21,15 +26,18 @@ color_names = ['cyan', 'magenta', 'yellow']
 block_size = 1/5*.9
 
 for i in range(3):
-    slot = Entity(color=colors[i], scale=.1, roundness=.0, color=color.clear)
+    slot = Entity(color=colors[i], scale=.1, roundness=.0, color=color.clear, z=1)
 
     slot.model.style.outline = `medium dashed ${color_names[i]}`
     slots.append(slot)
 
-    let e = Entity(color=colors[i], scale=.16, draggable=True, roundness=.2, shadow=True, target_slot=slot)
+    let e = Entity(color=colors[i], scale=.16, draggable=True, roundness=.2, shadow=True, target_slot=slot, velocity=[0,0], min_x=-.5+.08, max_x=.5-.08, min_y=(-.5*aspect_ratio)+.08, max_y=(.5*aspect_ratio)-.08, duration_dragged=0)
     e.effect = Entity(parent=e, scale=2, z=-1, texture='impact_effect.gif', enabled=False)
 
     draggables.append(e)
+    e.on_click = def():
+        print('aeroawidfjo')
+        e.start_pos = e.xy
 
     e.drop = def():
         e.scale_x -= .02
@@ -38,15 +46,58 @@ for i in range(3):
             e.scale_x += .02
             e.scale_y += .02
 
-        if distance(e.position, e.target_slot.position) < .1:
+        e.snap_to_slot()
+
+        if IS_ICY:
+            e.velocity = [e.x-e.start_pos[0], e.y-e.start_pos[1]]
+            e.duration_dragged = 0
+
+    e.snap_to_slot = def():
+        limit = .1
+        if IS_ICY:
+            limit = .05
+
+        if distance(e.position, e.target_slot.position) < limit:
             e.position = e.target_slot.position
             e.draggable = False
             r = [e.draggable for e in draggables].sum()
             if r == 0:
                 win()
 
-def randomize_positions():
+
+    e.update = def():
+        if IS_ICY and e.draggable and not e.dragging:
+            # print('a', e.velocity)
+
+            if e.x+e.scale_x > .5:
+                e.velocity[0] *= -1
+            if e.x-e.scale_x < -.5:
+                e.velocity[0] *= -1
+
+            if e.y+e.scale_y > .75:
+                e.velocity[1] *= -1
+            if e.y-e.scale_y < -.75:
+                e.velocity[1] *= -1
+
+            e.velocity = [
+                lerp(e.velocity[0], 0, .025),
+                lerp(e.velocity[1], 0, .025),
+                ]
+            e.x += e.velocity[0] * .05
+            e.y += e.velocity[1] * .05
+            e.x = clamp(e.x, -.5, .5)
+            e.y = clamp(e.y, -.75, .75)
+            e.snap_to_slot()
+
+def goto_next_level():
     random_positions = sample(coordinates, 6)
+    IS_ICY = random_value() < ICY_CHANCE
+    # if not IS_ICY:
+    #     set_window_color('#222')
+    # else:
+    #     set_window_color('#2f5369')
+
+
     for i in range(3)
         e = slots[i]
         e.x = (-2 + random_positions[(i*2)][0]) * block_size
@@ -56,23 +107,20 @@ def randomize_positions():
         e.x = (-2 + random_positions[(i*2)+1][0]) * block_size
         e.y = (-2 + random_positions[(i*2)+1][1]) * block_size
         e.draggable = True
+        e.velocity = [0,0]
 
-randomize_positions()
+goto_next_level()
 
-score = int(save_system_load('score'))
-if not score:
-    score = 0
-score_counter = Button(y=(.5*aspect_ratio)-.05, text=score, origin=[0,.5], text_color=color.white, color='#222')
+score_counter = Button(y=(.5*aspect_ratio)-.05, text=SCORE, origin=[0,.5], text_color=color.white, color='#222')
 score_counter.fit_to_text()
 
-win_text = Text(text='Yay! :D', enabled=False, color=color.white, shadow=True)
-win_text.fit_to_text()
+win_text = Entity(text='Yay! :D', enabled=False, text_origin=[0,0], scale=[.25,.125], color=color.white, shadow=True, margin=10, roundness=.4)
 
 def win():
     win_text.enabled = True
-    score += 1
-    score_counter.text= score
-    save_system_save('score', score)
+    SCORE += 1
+    score_counter.text= SCORE
+    save_system_save('score', SCORE)
 
     for i, e in enumerate(draggables):
         let _e = e
@@ -82,8 +130,13 @@ def win():
 
     after 1s:
         win_text.enabled = False
-        randomize_positions()
+        goto_next_level()
 print('-')
+
+mouse.prev_pos = mouse.position
+def update():
+    mouse.velocity = [mouse.position[0]-mouse.prev_pos[0], mouse.position[1]-mouse.prev_pos[1]]
+
 
 </script>
 <script src="sunsnake_compiler.js"></script>
